@@ -14,7 +14,7 @@ Note that Specifications should be only used when necessary and abusing this pat
 
 ## Usage:
 
-To define a Specification, simply declare a class and extend the `Specification` type. The extended class should feed the Expression Tree representing the specification to the constructor.
+To define a Specification, simply declare a class and extend the `Specification<T>` type. The extended class should feed the Expression Tree representing the specification to the constructor.
 
 ```csharp
 public class PremiumCustomerSpecification : Specification<Customer> 
@@ -54,4 +54,4 @@ var spec = Not(Default<AdultCustomerSpecification>().And(Default<ValidCustomerNa
                              .Or(Default<PremiumCustomerSpecification>()));
 ```
 
-Note that Specifications are immutable Value Objects, and thus any chaining operation would result in a new Specification object.
+Note that Specifications are immutable Value Objects, and thus any chaining operation would result in a new Specification object being spawned.
