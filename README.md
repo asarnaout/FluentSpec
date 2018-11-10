@@ -12,13 +12,14 @@ Specifications are best used in C# to encapsulate complex LINQ expressions that 
 
 ## Usage:
 
-To define a Specification, simply declare a class and extend the `Specification` type. The extended class should override the `ExpressionTree` property.
+To define a Specification, simply declare a class and extend the `Specification` type. The extended class should feed the Expression Tree representing the specification to the constructor.
 
 ```csharp
 public class PremiumCustomerSpecification : Specification<Customer> 
 {
-     public override Expression<Func<Customer, bool>> ExpressionTree { get; } = 
-             x => DateTime.Now.Year - x.MemberSince.Year > 10;
+    public PremiumCustomerSpecification () : base (x => DateTime.Now.Year - x.MemberSince.Year > 10) 
+    { 
+    }
 }
 ```
 
@@ -31,7 +32,7 @@ public class SpecificationDemo
 {
   public void Test()
   {
-    var spec = Spec<PremiumCustomerSpecification>();
+    var spec = Default<PremiumCustomerSpecification>();
   }
 }
 ```
@@ -39,7 +40,7 @@ public class SpecificationDemo
 Use the `IsSatisfied` method to verify whether an argument meets the criterion specified in `ExpressionTree`
 
 ```csharp
-var spec = Spec<PremiumCustomerSpecification>();
+var spec = Default<PremiumCustomerSpecification>();
 var customer = new Customer();
 var isSatisfied = spec.IsSatisfied(customer);
 ```
@@ -47,8 +48,8 @@ var isSatisfied = spec.IsSatisfied(customer);
 Chain Specifications to produce more complex Specifications
 
 ```csharp
-var spec = (Spec<AdultCustomerSpecification>().And(Spec<ValidCustomerNameSpecification>()))
-                .Or(Not(Spec<PremiumCustomerSpecification>()));
+var spec = Not(Default<AdultCustomerSpecification>().And(Default<ValidCustomerNameSpecification>())    
+                             .Or(Default<PremiumCustomerSpecification>()));
 ```
 
 Note that Specifications are immutable Value Objects, and thus any chaining operation would result in a new Specification object.

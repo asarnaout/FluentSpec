@@ -12,7 +12,7 @@ namespace FluentSpec.Tests
         public void IsSatisfied_NoExpressionTree_ThrowsException()
         {
             var customer = new Customer("test", DateTime.Now);
-            Assert.Throws<Exception>(() => Spec<NoExpressionTreeSpecification>().IsSatisfied(customer));
+            Assert.Throws<Exception>(() => Default<NoExpressionTreeSpecification>().IsSatisfied(customer));
         }
 
         [Theory]
@@ -22,7 +22,7 @@ namespace FluentSpec.Tests
         public void IsSatisfied_ValidTree_EvaluatesSpecification(string name, bool expected)
         {
             var customer = new Customer(name, DateTime.Now);
-            var spec = Spec<ValidCustomerNameSpecification>();
+            var spec = Default<ValidCustomerNameSpecification>();
             var evaluation = spec.IsSatisfied(customer);
             Assert.Equal(expected, evaluation);
         }
@@ -30,14 +30,14 @@ namespace FluentSpec.Tests
         [Fact]
         public void AndExpression_Null_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => Spec<AdultCustomerSpecification>()
+            Assert.Throws<ArgumentNullException>(() => Default<AdultCustomerSpecification>()
                .And(default(Specification<Customer>)));
         }
 
         [Fact]
         public void AndSpecification_Null_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => Spec<AdultCustomerSpecification>()
+            Assert.Throws<ArgumentNullException>(() => Default<AdultCustomerSpecification>()
                .And(default(Expression<Func<Customer, bool>>)));
         }
 
@@ -49,7 +49,7 @@ namespace FluentSpec.Tests
         public void AndSpecification_NotNull_EvaluatesConditionalAndOperation(string name, int year, bool expected)
         {
             var customer = new Customer(name, new DateTime(year, 1, 1));
-            var spec = Spec<ValidCustomerNameSpecification>().And(Spec<AdultCustomerSpecification>());
+            var spec = Default<ValidCustomerNameSpecification>().And(Default<AdultCustomerSpecification>());
             var evaluation = spec.IsSatisfied(customer);
             Assert.Equal(expected, evaluation);
         }
@@ -57,14 +57,14 @@ namespace FluentSpec.Tests
         [Fact]
         public void OrExpression_Null_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => Spec<AdultCustomerSpecification>()
+            Assert.Throws<ArgumentNullException>(() => Default<AdultCustomerSpecification>()
                .Or(default(Specification<Customer>)));
         }
 
         [Fact]
         public void OrSpecification_Null_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => Spec<AdultCustomerSpecification>()
+            Assert.Throws<ArgumentNullException>(() => Default<AdultCustomerSpecification>()
                .Or(default(Expression<Func<Customer, bool>>)));
         }
 
@@ -76,7 +76,7 @@ namespace FluentSpec.Tests
         public void OrSpecification_NotNull_EvaluatesConditionalOrOperation(string name, int year, bool expected)
         {
             var customer = new Customer(name, new DateTime(year, 1, 1));
-            var spec = Spec<ValidCustomerNameSpecification>().Or(Spec<AdultCustomerSpecification>());
+            var spec = Default<ValidCustomerNameSpecification>().Or(Default<AdultCustomerSpecification>());
             var evaluation = spec.IsSatisfied(customer);
             Assert.Equal(expected, evaluation);
         }
@@ -91,7 +91,7 @@ namespace FluentSpec.Tests
         [Fact]
         public void XorSpecification_Null_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => Spec<AdultCustomerSpecification>()
+            Assert.Throws<ArgumentNullException>(() => Default<AdultCustomerSpecification>()
                .And(default(Expression<Func<Customer, bool>>)));
         }
 
@@ -103,7 +103,7 @@ namespace FluentSpec.Tests
         public void XorSpecification_NotNull_EvaluatesConditionalOrOperation(string name, int year, bool expected)
         {
             var customer = new Customer(name, new DateTime(year, 1, 1));
-            var spec = Spec<ValidCustomerNameSpecification>().Xor(Spec<AdultCustomerSpecification>());
+            var spec = Default<ValidCustomerNameSpecification>().Xor(Default<AdultCustomerSpecification>());
             var evaluation = spec.IsSatisfied(customer);
             Assert.Equal(expected, evaluation);
         }
@@ -111,7 +111,7 @@ namespace FluentSpec.Tests
         [Fact]
         public void NotSpecification_Null_ThrowsException()
         {
-            Assert.Throws<Exception>(() => Not(Spec<NoExpressionTreeSpecification>()));
+            Assert.Throws<Exception>(() => Not(Default<NoExpressionTreeSpecification>()));
         }
 
         [Theory]
@@ -120,7 +120,7 @@ namespace FluentSpec.Tests
         public void NotSpecification_NotNull_EvaluatesNotOperation(int year, bool expected)
         {
             var customer = new Customer("test", new DateTime(year, 1, 1));
-            var spec = Not(Spec<AdultCustomerSpecification>());
+            var spec = Not(Default<AdultCustomerSpecification>());
             var evaluation = spec.IsSatisfied(customer);
             Assert.Equal(expected, evaluation);
         }
@@ -134,8 +134,8 @@ namespace FluentSpec.Tests
         {
             var customer = new Customer(name, new DateTime(yearOfBirth, 1, 1),
                 DateTime.Now.AddYears(-1 * memberSince));
-            var spec = (Spec<AdultCustomerSpecification>().And(Spec<ValidCustomerNameSpecification>()))
-                .Or(Not(Spec<PremiumCustomerSpecification>()));
+            var spec = (Default<AdultCustomerSpecification>().And(Default<ValidCustomerNameSpecification>()))
+                .Or(Not(Default<PremiumCustomerSpecification>()));
             var evaluation = spec.IsSatisfied(customer);
             Assert.Equal(expected, evaluation);
         }

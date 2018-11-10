@@ -3,6 +3,6 @@ using System.Linq.Expressions;
 
 namespace FluentSpec.Tests {
     public class ValidCustomerNameSpecification : Specification<Customer> {
-        public override Expression<Func<Customer, bool>> ExpressionTree { get; } = x => x.Name.Length > 0 && x.Name.Length < 10;
+        public ValidCustomerNameSpecification () : base (x => x.Name.Length > 0 && x.Name.Length < 10) { }
     }
 }

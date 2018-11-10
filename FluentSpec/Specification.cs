@@ -6,11 +6,9 @@ namespace FluentSpec {
         /// <summary>
         /// Represents the Expression Tree evaluating the Specification
         /// </summary>
-        public virtual Expression<Func<T, bool>> ExpressionTree { get; }
+        public Expression<Func<T, bool>> ExpressionTree { get; }
 
-        public Specification () { }
-
-        internal Specification (Expression<Func<T, bool>> expression) {
+        public Specification (Expression<Func<T, bool>> expression) {
             ExpressionTree = expression;
         }
 

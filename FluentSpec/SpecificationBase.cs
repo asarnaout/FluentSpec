@@ -3,6 +3,9 @@ using System.Linq.Expressions;
 
 namespace FluentSpec {
     public abstract class Specification {
+
+        internal Specification () { }
+
         /// <summary>
         /// Performs a NOT operation on the Expression Tree
         /// </summary>
