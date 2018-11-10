@@ -10,6 +10,8 @@ Specifications are value objects that are capable of verifying whether an argume
 
 Specifications are best used in C# to encapsulate complex LINQ expressions that are well hidden and duplicated across the codebase. Using Specifications in conjunction with Repositories allows for a simpler Repository interface. 
 
+Note that Specifications should be only used when necessary and abusing this pattern would highly increase the code complexity.
+
 ## Usage:
 
 To define a Specification, simply declare a class and extend the `Specification` type. The extended class should feed the Expression Tree representing the specification to the constructor.
