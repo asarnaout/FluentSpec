@@ -39,6 +39,8 @@ public class SpecificationDemo
 }
 ```
 
+Note that clients are allowed to bypass the `SpecificationFactory` and directly create new instances of their Specifications in code.
+
 Use the `IsSatisfied` method to verify whether an argument meets the criterion specified in `ExpressionTree`
 
 ```csharp
@@ -50,8 +52,8 @@ var isSatisfied = spec.IsSatisfied(customer);
 Chain Specifications to produce more complex Specifications
 
 ```csharp
-var spec = Not(Default<AdultCustomerSpecification>().And(Default<ValidCustomerNameSpecification>())    
-                             .Or(Default<PremiumCustomerSpecification>()));
+var spec = Not(Default<AdultCustomerSpecification>()).And(Default<ValidCustomerNameSpecification>())    
+                             .Or(Default<PremiumCustomerSpecification>());
 ```
 
 Note that Specifications are immutable Value Objects, and thus any chaining operation would result in a new Specification object being spawned.
